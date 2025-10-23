@@ -254,7 +254,7 @@ func (r *PtpOperatorConfigReconciler) syncLinuxptpDaemon(ctx context.Context, de
 			pluginList = append(pluginList, k)
 		}
 	} else {
-		pluginList = []string{"e810"} // Enable e810 by default if plugins not specified
+		pluginList = []string{"e810", "e825", "e830"} // Enable e810 by default if plugins not specified
 	}
 
 	enabledPlugins := strings.Join(pluginList, ",")
