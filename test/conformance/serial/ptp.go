@@ -1095,9 +1095,12 @@ var _ = Describe("["+strings.ToLower(DesiredMode.String())+"-serial]", Serial, f
 				const phc2sysLogPattern = `phc2sys(?m).*?:.* selecting (\w+) as out-of-domain source clock`
 				var selectedInterface string
 
+				// Use a longer timeout: ptp4l reaching SLAVE state does not mean its
+				// offset is already sub-second. phc2sys only starts once the offset
+				// crosses that threshold, which may take several minutes to converge.
 				logMatches, err := pods.GetPodLogsRegex(fullConfig.DiscoveredClockUnderTestPod.Namespace,
 					fullConfig.DiscoveredClockUnderTestPod.Name, pkg.PtpContainerName,
-					phc2sysLogPattern, false, pkg.TimeoutIn1Minute)
+					phc2sysLogPattern, false, pkg.TimeoutIn5Minutes)
 				Expect(err).NotTo(HaveOccurred())
 				Expect(len(logMatches)).To(BeNumerically(">=", 1), "Could not identify which interface phc2sys is using")
 				logrus.Infof("phc2sys log matching line: %v", logMatches[len(logMatches)-1][0])
