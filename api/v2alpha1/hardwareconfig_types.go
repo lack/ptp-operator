@@ -195,8 +195,7 @@ type GNSSMatcher struct {
 	SerialDevice *SerialDevice `json:"serialDevice,omitempty" yaml:"serialDevice,omitempty"`
 
 	// EthernetDevice defines the Ethernet device to which the GNSS device is
-	// attached. Name takes precedence as a direct interface lookup; when Name
-	// is omitted, the other fields are used as matching criteria.
+	// attached. All specified Ethernet device selectors must match.
 	EthernetDevice *EthernetDevice `json:"ethernetDevice,omitempty" yaml:"ethernetDevice,omitempty"`
 
 	// USBDevice defines the GNSS device by its USB vendor and product IDs.
@@ -225,14 +224,16 @@ type ACPIDevice struct {
 	UID string `json:"uid,omitempty" yaml:"uid,omitempty"`
 }
 
-// EthernetDevice identifies an Ethernet device using the selection criteria
-// used by SR-IOV device selectors. Name is the interface name, PCISlot is the
-// PCI address (for example, "0000:86:00.0"), and Vendor and DeviceID are
-// hexadecimal PCI identifiers. At least one field must be specified. When
-// multiple non-name fields are supplied, they are combined as AND criteria.
-// +kubebuilder:validation:XValidation:rule="has(self.name) || has(self.pciSlot) || has(self.vendor) || has(self.deviceID)", message="At least one Ethernet device selection criterion must be provided."
+// EthernetDevice identifies an Ethernet device. Name is any Linux network
+// interface name (for example, eno8703, enp2s0, or ens2f0); PCISlot is the PCI
+// address (for example, "0000:86:00.0"); PermanentMACAddress is the permanent
+// hardware MAC address; and Slot is the firmware-reported PCI slot number used
+// in systemd slot-based interface names (for example, "2" in "ens2f0"). At least
+// one field must be specified. When multiple fields are supplied, they are
+// combined as AND criteria.
+// +kubebuilder:validation:XValidation:rule="has(self.name) || has(self.pciSlot) || has(self.permanentMACAddress) || has(self.slot)", message="At least one Ethernet device selection criterion must be provided."
 type EthernetDevice struct {
-	// Name is the Linux Ethernet interface name, such as eno8703.
+	// Name is any Linux Ethernet interface name, such as eno8703, enp2s0, or ens2f0.
 	// +kubebuilder:validation:MinLength=1
 	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 
@@ -240,13 +241,15 @@ type EthernetDevice struct {
 	// +kubebuilder:validation:Pattern=`^([0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\.[0-7]$`
 	PCISlot string `json:"pciSlot,omitempty" yaml:"pciSlot,omitempty"`
 
-	// Vendor is the four-digit hexadecimal PCI vendor ID.
-	// +kubebuilder:validation:Pattern=`^[0-9a-fA-F]{4}$`
-	Vendor string `json:"vendor,omitempty" yaml:"vendor,omitempty"`
+	// PermanentMACAddress is the Ethernet device's permanent hardware MAC address.
+	// +kubebuilder:validation:Pattern=`^([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}$`
+	PermanentMACAddress string `json:"permanentMACAddress,omitempty" yaml:"permanentMACAddress,omitempty"`
 
-	// DeviceID is the four-digit hexadecimal PCI device ID.
-	// +kubebuilder:validation:Pattern=`^[0-9a-fA-F]{4}$`
-	DeviceID string `json:"deviceID,omitempty" yaml:"deviceID,omitempty"`
+	// Slot is the firmware-reported PCI slot number used by systemd for slot-based
+	// interface names, such as "2" in "ens2f0". It is not the PCI bus number.
+	// Multiple PCI functions in one slot may share this slot number.
+	// +kubebuilder:validation:Pattern=`^[0-9]+$`
+	Slot string `json:"slot,omitempty" yaml:"slot,omitempty"`
 }
 
 // USBDevice identifies a USB device by its vendor and product IDs. IDs are

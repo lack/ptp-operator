@@ -268,6 +268,10 @@ In above examples, `profile1` will be applied by `linuxptp-daemon` to nodes labe
 
 `xxx-ptpconfig` CR is created with `PtpConfig` kind. `spec.profile` defines profile named `profile1` which contains `interface (enp134s0f0)` to run ptp4l process on, `ptp4lOpts (-s -2)` sysconfig options to run ptp4l process with and `phc2sysOpts (-a -r)` to run phc2sys process with. `spec.recommend` defines `priority` (lower numbers mean higher priority, 0 is the highest priority) and `match` rules of profile `profile1`. `priority` is useful when there are multiple `PtpConfig` CRs defined, linuxptp daemon applies `match` rules against node labels and names from high priority to low priority in order. If any of `nodeLabel` or `nodeName` on a specific node matches with the node label or name where daemon runs, it applies profile on that node.
 
+#### HardwareConfig GNSS Ethernet matching
+
+A GNSS `HardwareConfig` can select its attached Ethernet interface with `gnssConfig.match.ethernetDevice`. Selectors include `name` (any Linux interface name, such as `eno...`, `enp...`, or `ens...`), `pciSlot` (PCI bus address), `permanentMACAddress` (permanent hardware MAC), and `slot` (the firmware-reported PCI slot number used in slot-based names, e.g. `2` in `ens2f0`). Multiple PCI functions in one slot may share the same slot number. When multiple selector fields are provided, they are combined as AND criteria. Vendor and device IDs are not Ethernet identity selectors because identical NICs can share them.
+
 #### Automatic leap second file management
 The T-GM system depends on having the most recent leap second information. This data comes in a file that shows the difference in seconds between Coordinated Universal Time (UTC) and International Atomic Time (TAI). This file is regularly updated by the International Earth Rotation and Reference Systems Service (IERS).
 The latest leap seconds file can be downloaded from https://hpiers.obspm.fr/iers/bul/bulc/ntp/leap-seconds.list.

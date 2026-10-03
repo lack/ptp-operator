@@ -264,6 +264,51 @@ func TestSourceTypeValidation(t *testing.T) {
 			wantErr: false,
 		},
 		{
+			name: "valid gnss with Ethernet device permanent MAC matcher",
+			source: &SourceConfig{
+				Subsystem:  "subsystem",
+				SourceType: SourceTypeGNSS,
+				BoardLabel: "GNSS",
+				GNSSConfig: &GNSSConfig{
+					Init: GNSSInit{},
+					Match: &GNSSMatcher{
+						EthernetDevice: &EthernetDevice{PermanentMACAddress: "00:11:22:aa:bb:cc"},
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid gnss with Ethernet device slot matcher",
+			source: &SourceConfig{
+				Subsystem:  "subsystem",
+				SourceType: SourceTypeGNSS,
+				BoardLabel: "GNSS",
+				GNSSConfig: &GNSSConfig{
+					Init: GNSSInit{},
+					Match: &GNSSMatcher{
+						EthernetDevice: &EthernetDevice{Slot: "2"},
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid gnss with Ethernet device name matcher",
+			source: &SourceConfig{
+				Subsystem:  "subsystem",
+				SourceType: SourceTypeGNSS,
+				BoardLabel: "GNSS",
+				GNSSConfig: &GNSSConfig{
+					Init: GNSSInit{},
+					Match: &GNSSMatcher{
+						EthernetDevice: &EthernetDevice{Name: "ens2f0"},
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
 			name: "valid dpllPhaseLocked source",
 			source: &SourceConfig{
 				Subsystem:  "subsystem",
