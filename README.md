@@ -270,7 +270,7 @@ In above examples, `profile1` will be applied by `linuxptp-daemon` to nodes labe
 
 #### HardwareConfig GNSS Ethernet matching
 
-A GNSS `HardwareConfig` can select its attached Ethernet interface with `gnssConfig.match.ethernetDevice`. Selectors include `name` (any Linux interface name, such as `eno...`, `enp...`, or `ens...`), `pciSlot` (PCI bus address), `permanentMACAddress` (permanent hardware MAC), and `slot` (the firmware-reported PCI slot number used in slot-based names, e.g. `2` in `ens2f0`). Multiple PCI functions in one slot may share the same slot number. When multiple selector fields are provided, they are combined as AND criteria. Vendor and device IDs are not Ethernet identity selectors because identical NICs can share them.
+A GNSS `HardwareConfig` can select its attached Ethernet interface with `gnssConfig.match.ethernetDevice`. Selectors include `name` (any Linux interface name, such as `eno...`, `enp...`, or `ens...`), `pciAddress` (PCI bus address), `permanentMACAddress` (permanent hardware MAC), and `slot` (the firmware-reported PCI slot number used in slot-based names, e.g. `2` in `ens2f0`). Multiple PCI functions in one slot may share the same slot number. When multiple selector fields are provided, they are combined as AND criteria. Vendor and device IDs are not Ethernet identity selectors because identical NICs can share them.
 
 A GNSS USB matcher requires vendor and product IDs. Its optional `path` field (for example, `2-1.4`) is the Linux USB bus-and-port topology path and can distinguish otherwise identical devices connected at different ports. It is tied to the physical USB topology, not to the device itself; moving the device or changing the topology can change the path.
 

@@ -225,21 +225,21 @@ type ACPIDevice struct {
 }
 
 // EthernetDevice identifies an Ethernet device. Name is any Linux network
-// interface name (for example, eno8703, enp2s0, or ens2f0); PCISlot is the PCI
+// interface name (for example, eno8703, enp2s0, or ens2f0); PCIAddress is the PCI
 // address (for example, "0000:86:00.0"); PermanentMACAddress is the permanent
 // hardware MAC address; and Slot is the firmware-reported PCI slot number used
 // in systemd slot-based interface names (for example, "2" in "ens2f0"). At least
 // one field must be specified. When multiple fields are supplied, they are
 // combined as AND criteria.
-// +kubebuilder:validation:XValidation:rule="has(self.name) || has(self.pciSlot) || has(self.permanentMACAddress) || has(self.slot)", message="At least one Ethernet device selection criterion must be provided."
+// +kubebuilder:validation:XValidation:rule="has(self.name) || has(self.pciAddress) || has(self.permanentMACAddress) || has(self.slot)", message="At least one Ethernet device selection criterion must be provided."
 type EthernetDevice struct {
 	// Name is any Linux Ethernet interface name, such as eno8703, enp2s0, or ens2f0.
 	// +kubebuilder:validation:MinLength=1
 	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 
-	// PCISlot is the PCI bus address of the Ethernet device.
+	// PCIAddress is the PCI bus address of the Ethernet device.
 	// +kubebuilder:validation:Pattern=`^([0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\.[0-7]$`
-	PCISlot string `json:"pciSlot,omitempty" yaml:"pciSlot,omitempty"`
+	PCIAddress string `json:"pciAddress,omitempty" yaml:"pciAddress,omitempty"`
 
 	// PermanentMACAddress is the Ethernet device's permanent hardware MAC address.
 	// +kubebuilder:validation:Pattern=`^([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}$`

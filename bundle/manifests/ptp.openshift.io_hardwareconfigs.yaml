@@ -367,8 +367,8 @@ spec:
                                                 or ens2f0.
                                               minLength: 1
                                               type: string
-                                            pciSlot:
-                                              description: PCISlot is the PCI bus
+                                            pciAddress:
+                                              description: PCIAddress is the PCI bus
                                                 address of the Ethernet device.
                                               pattern: ^([0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\.[0-7]$
                                               type: string
@@ -389,7 +389,7 @@ spec:
                                           x-kubernetes-validations:
                                           - message: At least one Ethernet device
                                               selection criterion must be provided.
-                                            rule: has(self.name) || has(self.pciSlot)
+                                            rule: has(self.name) || has(self.pciAddress)
                                               || has(self.permanentMACAddress) ||
                                               has(self.slot)
                                         serialDevice:

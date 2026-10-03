@@ -272,7 +272,7 @@ func TestSourceTypeValidation(t *testing.T) {
 				GNSSConfig: &GNSSConfig{
 					Init: GNSSInit{},
 					Match: &GNSSMatcher{
-						EthernetDevice: &EthernetDevice{PCISlot: "0000:86:00.0"},
+						EthernetDevice: &EthernetDevice{PCIAddress: "0000:86:00.0"},
 					},
 				},
 			},
