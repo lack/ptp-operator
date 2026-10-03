@@ -272,6 +272,8 @@ In above examples, `profile1` will be applied by `linuxptp-daemon` to nodes labe
 
 A GNSS `HardwareConfig` can select its attached Ethernet interface with `gnssConfig.match.ethernetDevice`. Selectors include `name` (any Linux interface name, such as `eno...`, `enp...`, or `ens...`), `pciSlot` (PCI bus address), `permanentMACAddress` (permanent hardware MAC), and `slot` (the firmware-reported PCI slot number used in slot-based names, e.g. `2` in `ens2f0`). Multiple PCI functions in one slot may share the same slot number. When multiple selector fields are provided, they are combined as AND criteria. Vendor and device IDs are not Ethernet identity selectors because identical NICs can share them.
 
+A GNSS USB matcher requires vendor and product IDs. Its optional `path` field (for example, `2-1.4`) is the Linux USB bus-and-port topology path and can distinguish otherwise identical devices connected at different ports. It is tied to the physical USB topology, not to the device itself; moving the device or changing the topology can change the path.
+
 #### Automatic leap second file management
 The T-GM system depends on having the most recent leap second information. This data comes in a file that shows the difference in seconds between Coordinated Universal Time (UTC) and International Atomic Time (TAI). This file is regularly updated by the International Earth Rotation and Reference Systems Service (IERS).
 The latest leap seconds file can be downloaded from https://hpiers.obspm.fr/iers/bul/bulc/ntp/leap-seconds.list.

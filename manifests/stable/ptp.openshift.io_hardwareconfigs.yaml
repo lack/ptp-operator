@@ -432,6 +432,13 @@ spec:
                                           description: USBDevice defines the GNSS
                                             device by its USB vendor and product IDs.
                                           properties:
+                                            path:
+                                              description: |-
+                                                Path is the Linux USB topology path (bus-port chain), such as "2-1.4".
+                                                It identifies the physical connection path, not a device serial number,
+                                                and can change if the device is moved to another port or topology changes.
+                                              pattern: ^[0-9]+-[0-9]+(\.[0-9]+)*$
+                                              type: string
                                             product:
                                               description: Product is the four-digit
                                                 hexadecimal USB product ID.

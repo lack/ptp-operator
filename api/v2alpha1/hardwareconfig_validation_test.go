@@ -232,6 +232,21 @@ func TestSourceTypeValidation(t *testing.T) {
 			wantErr: false,
 		},
 		{
+			name: "valid gnss with USB device path matcher",
+			source: &SourceConfig{
+				Subsystem:  "subsystem",
+				SourceType: SourceTypeGNSS,
+				BoardLabel: "GNSS",
+				GNSSConfig: &GNSSConfig{
+					Init: GNSSInit{},
+					Match: &GNSSMatcher{
+						USBDevice: &USBDevice{Vendor: "1546", Product: "01a9", Path: "2-1.4"},
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
 			name: "valid gnss with ACPI serial device matcher",
 			source: &SourceConfig{
 				Subsystem:  "subsystem",

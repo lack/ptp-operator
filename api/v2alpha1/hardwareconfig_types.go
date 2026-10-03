@@ -252,9 +252,10 @@ type EthernetDevice struct {
 	Slot string `json:"slot,omitempty" yaml:"slot,omitempty"`
 }
 
-// USBDevice identifies a USB device by its vendor and product IDs. IDs are
-// hexadecimal strings as reported by sysfs, for example vendor "1546" and
-// product "01a9" for the u-blox GNSS receiver used on Dell GNR-D systems.
+// USBDevice identifies a USB device by its vendor and product IDs, with an
+// optional topology path to distinguish identical devices. IDs are hexadecimal
+// strings as reported by sysfs, for example vendor "1546" and product "01a9"
+// for the u-blox GNSS receiver used on Dell GNR-D systems.
 type USBDevice struct {
 	// Vendor is the four-digit hexadecimal USB vendor ID.
 	// +kubebuilder:validation:Pattern=`^[0-9a-fA-F]{4}$`
@@ -263,6 +264,12 @@ type USBDevice struct {
 	// Product is the four-digit hexadecimal USB product ID.
 	// +kubebuilder:validation:Pattern=`^[0-9a-fA-F]{4}$`
 	Product string `json:"product" yaml:"product"`
+
+	// Path is the Linux USB topology path (bus-port chain), such as "2-1.4".
+	// It identifies the physical connection path, not a device serial number,
+	// and can change if the device is moved to another port or topology changes.
+	// +kubebuilder:validation:Pattern=`^[0-9]+-[0-9]+(\.[0-9]+)*$`
+	Path string `json:"path,omitempty" yaml:"path,omitempty"`
 }
 
 // GNSSSurveyParameters outline the GPS SURVEYIN operation
