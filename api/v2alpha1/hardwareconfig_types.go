@@ -237,11 +237,12 @@ type EthernetDevice struct {
 	// +kubebuilder:validation:MinLength=1
 	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 
-	// PCIAddress is the PCI bus address of the Ethernet device.
+	// PCIAddress is the PCI bus address of the Ethernet device, such as "0000:86:00.0".
 	// +kubebuilder:validation:Pattern=`^([0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\.[0-7]$`
 	PCIAddress string `json:"pciAddress,omitempty" yaml:"pciAddress,omitempty"`
 
-	// PermanentMACAddress is the Ethernet device's permanent hardware MAC address.
+	// PermanentMACAddress is the Ethernet device's permanent hardware MAC address,
+	// such as "00:11:22:aa:bb:cc".
 	// +kubebuilder:validation:Pattern=`^([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}$`
 	PermanentMACAddress string `json:"permanentMACAddress,omitempty" yaml:"permanentMACAddress,omitempty"`
 
@@ -257,11 +258,11 @@ type EthernetDevice struct {
 // strings as reported by sysfs, for example vendor "1546" and product "01a9"
 // for the u-blox GNSS receiver used on Dell GNR-D systems.
 type USBDevice struct {
-	// Vendor is the four-digit hexadecimal USB vendor ID.
+	// Vendor is the four-digit hexadecimal USB vendor ID, such as "1546".
 	// +kubebuilder:validation:Pattern=`^[0-9a-fA-F]{4}$`
 	Vendor string `json:"vendor" yaml:"vendor"`
 
-	// Product is the four-digit hexadecimal USB product ID.
+	// Product is the four-digit hexadecimal USB product ID, such as "01a9".
 	// +kubebuilder:validation:Pattern=`^[0-9a-fA-F]{4}$`
 	Product string `json:"product" yaml:"product"`
 

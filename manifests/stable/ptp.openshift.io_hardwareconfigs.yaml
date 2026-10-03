@@ -369,13 +369,14 @@ spec:
                                               type: string
                                             pciAddress:
                                               description: PCIAddress is the PCI bus
-                                                address of the Ethernet device.
+                                                address of the Ethernet device, such
+                                                as "0000:86:00.0".
                                               pattern: ^([0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\.[0-7]$
                                               type: string
                                             permanentMACAddress:
-                                              description: PermanentMACAddress is
-                                                the Ethernet device's permanent hardware
-                                                MAC address.
+                                              description: |-
+                                                PermanentMACAddress is the Ethernet device's permanent hardware MAC address,
+                                                such as "00:11:22:aa:bb:cc".
                                               pattern: ^([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}$
                                               type: string
                                             slot:
@@ -441,12 +442,14 @@ spec:
                                               type: string
                                             product:
                                               description: Product is the four-digit
-                                                hexadecimal USB product ID.
+                                                hexadecimal USB product ID, such as
+                                                "01a9".
                                               pattern: ^[0-9a-fA-F]{4}$
                                               type: string
                                             vendor:
                                               description: Vendor is the four-digit
-                                                hexadecimal USB vendor ID.
+                                                hexadecimal USB vendor ID, such as
+                                                "1546".
                                               pattern: ^[0-9a-fA-F]{4}$
                                               type: string
                                           required:
